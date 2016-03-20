@@ -17,8 +17,7 @@
     <orderEntry type="library" name="Maven: com.googlecode.zohhak:zohhak:1.0.2-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.1" level="project" />
     <orderEntry type="library" name="Maven: com.googlecode.yatspec:yatspec:1.20" level="project" />
-    <orderEntry type="library" name="Maven: com.github.mifmif:generex:0.0.4" level="project" />
-    <orderEntry type="library" name="Maven: dk.brics.automaton:automaton:1.11-8" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20160212" level="project" />
+  </component>
   </component>
 </module>

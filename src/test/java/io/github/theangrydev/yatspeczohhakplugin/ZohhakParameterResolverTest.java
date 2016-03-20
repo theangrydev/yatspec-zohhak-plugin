@@ -144,7 +144,6 @@ public class ZohhakParameterResolverTest implements WithAssertions {
         }
     }
 
-    @SuppressWarnings("unused")
     private enum Suit {
         HEART("heart"),
         CLUB("club"),

@@ -15,7 +15,8 @@ import java.util.stream.Stream;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
-class ZohhakParameterResolver implements ParameterResolver {
+@SuppressWarnings("WeakerAccess")
+public class ZohhakParameterResolver implements ParameterResolver {
 
     private static final String PARAMETER_DELIMITER = "~";
     private static final String COLLECTION_DELIMITER = ",";

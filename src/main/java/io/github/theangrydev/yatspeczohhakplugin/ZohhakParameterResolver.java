@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static io.github.theangrydev.yatspeczohhakplugin.ParameterCoercerFactoryFactory.parameterCoercerFactory;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
@@ -24,7 +25,7 @@ public class ZohhakParameterResolver implements ParameterResolver {
     private static final String COLLECTION_END = "]";
 
     private final VarargsParameterResolver varargsParameterResolver = new VarargsParameterResolver();
-    private final ParameterCalculator parameterCalculator = new ParameterCalculatorProvider().getExecutor(new JsonCollectionsParameterCoercerFactory());
+    private final ParameterCalculator parameterCalculator = new ParameterCalculatorProvider().getExecutor(parameterCoercerFactory());
     private final CustomConfiguration customConfiguration = new CustomConfiguration();
 
     @Override

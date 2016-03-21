@@ -21,6 +21,7 @@ import static java.util.Collections.*;
 public class ZohhakParameterResolverTest implements WithAssertions {
 
     static {
+        ParameterCoercerFactoryFactory.setParameterCoercerFactory(JsonCollectionsParameterCoercerFactory.class);
         ParameterResolverFactory.setParameterResolver(ZohhakParameterResolver.class);
     }
 

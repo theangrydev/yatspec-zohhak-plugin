@@ -6,13 +6,13 @@ import com.googlecode.yatspec.junit.VarargsParameterResolver;
 import com.googlecode.zohhak.api.DefaultConfiguration;
 import com.googlecode.zohhak.api.backend.ParameterCalculator;
 import com.googlecode.zohhak.api.backend.ParameterCalculatorProvider;
+import io.github.theangrydev.yatspeczohhakplugin.json.JsonCollectionsParameterCoercerFactory;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static io.github.theangrydev.yatspeczohhakplugin.ParameterCoercerFactoryFactory.parameterCoercerFactory;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 
@@ -25,13 +25,13 @@ public class ZohhakParameterResolver implements ParameterResolver {
     private static final String COLLECTION_END = "]";
 
     private final VarargsParameterResolver varargsParameterResolver = new VarargsParameterResolver();
-    private final ParameterCalculator parameterCalculator = new ParameterCalculatorProvider().getExecutor(parameterCoercerFactory());
+    private final ParameterCalculator parameterCalculator = new ParameterCalculatorProvider().getExecutor(new JsonCollectionsParameterCoercerFactory());
     private final CustomConfiguration customConfiguration = new CustomConfiguration();
 
     @Override
     public Object[] resolveParameters(Row row, Class<?> testClass, Method testMethod) throws Exception {
         Object[] parameters = varargsParameterResolver.resolveParameters(row, testClass, testMethod);
-        return resolveParameters(parameters, testMethod);
+        return resolveParameters(testMethod, parametersLine(parameters));
     }
 
     private String parametersLine(Object[] rowParameters) {
@@ -40,19 +40,17 @@ public class ZohhakParameterResolver implements ParameterResolver {
 
     private String parameterToString(Object object) {
         if (object.getClass().isArray()) {
-            return getStream(object).map(String::valueOf).collect(joining(COLLECTION_DELIMITER, COLLECTION_BEGIN, COLLECTION_END));
+            return streamArray(object).map(String::valueOf).collect(joining(COLLECTION_DELIMITER, COLLECTION_BEGIN, COLLECTION_END));
         } else {
             return object.toString();
         }
     }
 
-    private Stream<Object> getStream(Object array) {
+    private Stream<Object> streamArray(Object array) {
         return IntStream.range(0, Array.getLength(array)).mapToObj(i -> Array.get(array, i));
     }
 
-    private Object[] resolveParameters(Object[] rowParameters, Method testMethod) throws NoSuchMethodException {
-        String parametersLine = parametersLine(rowParameters);
-
+    private Object[] resolveParameters(Method testMethod, String parametersLine) throws NoSuchMethodException {
         return parameterCalculator.calculateParameters(parametersLine, testMethod, customConfiguration);
     }
 

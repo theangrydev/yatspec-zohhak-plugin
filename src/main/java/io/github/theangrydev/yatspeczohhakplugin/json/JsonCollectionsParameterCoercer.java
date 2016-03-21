@@ -1,4 +1,4 @@
-package io.github.theangrydev.yatspeczohhakplugin;
+package io.github.theangrydev.yatspeczohhakplugin.json;
 
 import com.googlecode.zohhak.api.backend.ParameterCoercer;
 import org.apache.commons.lang3.ClassUtils;

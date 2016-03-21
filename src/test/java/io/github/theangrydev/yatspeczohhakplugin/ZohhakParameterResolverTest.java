@@ -5,6 +5,7 @@ import com.googlecode.yatspec.junit.Row;
 import com.googlecode.yatspec.junit.SpecRunner;
 import com.googlecode.yatspec.junit.Table;
 import com.googlecode.zohhak.api.Coercion;
+import io.github.theangrydev.yatspeczohhakplugin.json.JsonCollectionsParameterCoercerFactory;
 import org.assertj.core.api.WithAssertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;

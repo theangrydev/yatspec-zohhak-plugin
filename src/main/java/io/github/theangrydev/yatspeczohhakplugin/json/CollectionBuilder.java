@@ -1,4 +1,4 @@
-package io.github.theangrydev.yatspeczohhakplugin;
+package io.github.theangrydev.yatspeczohhakplugin.json;
 
 import java.lang.reflect.Type;
 

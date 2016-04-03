@@ -36,7 +36,7 @@ public class ZohhakParameterResolver implements ParameterResolver {
     @Override
     public Object[] resolveParameters(Row row, Class<?> testClass, Method testMethod) throws Exception {
         Object[] parameters = varargsParameterResolver.resolveParameters(row, testClass, testMethod);
-        return resolveParameters(testMethod, parametersLine(parameters));
+        return parameterCalculator.calculateParameters(parametersLine(parameters), testMethod);
     }
 
     private String parametersLine(Object[] rowParameters) {
@@ -53,10 +53,6 @@ public class ZohhakParameterResolver implements ParameterResolver {
 
     private Stream<Object> streamArray(Object array) {
         return IntStream.range(0, Array.getLength(array)).mapToObj(i -> Array.get(array, i));
-    }
-
-    private Object[] resolveParameters(Method testMethod, String parametersLine) throws NoSuchMethodException {
-        return parameterCalculator.calculateParameters(parametersLine, testMethod);
     }
 
     private static class CustomConfigurationResolver implements ConfigurationResolver {

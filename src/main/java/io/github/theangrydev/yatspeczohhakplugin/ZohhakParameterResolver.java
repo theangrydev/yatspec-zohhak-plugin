@@ -8,7 +8,7 @@ import com.googlecode.zohhak.api.DefaultCoercer;
 import com.googlecode.zohhak.api.backend.ConfigurationBuilder;
 import com.googlecode.zohhak.api.backend.ConfigurationResolver;
 import com.googlecode.zohhak.api.backend.ParameterCalculator;
-import com.googlecode.zohhak.api.backend.ParameterCalculatorProvider;
+import com.googlecode.zohhak.api.backend.executor.ParameterCalculatorProvider;
 import io.github.theangrydev.yatspeczohhakplugin.json.JsonCollectionsParameterCoercerFactory;
 
 import java.lang.reflect.Array;

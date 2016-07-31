@@ -23,7 +23,7 @@
 
     <groupId>io.github.theangrydev</groupId>
     <artifactId>yatspec-zohhak-plugin</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
     <name>yatspec-zohhak-plugin</name>
@@ -34,7 +34,7 @@
         <connection>scm:git:https://github.com/theangrydev/yatspec-zohhak-plugin.git</connection>
         <developerConnection>scm:git:https://github.com/theangrydev/yatspec-zohhak-plugin.git</developerConnection>
         <url>https://github.com/theangrydev/yatspec-zohhak-plugin.git</url>
-        <tag>HEAD</tag>
+        <tag>yatspec-zohhak-plugin-1.1.1</tag>
     </scm>
 
     <licenses>

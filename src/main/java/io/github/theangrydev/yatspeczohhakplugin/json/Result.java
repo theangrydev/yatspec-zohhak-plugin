@@ -1,30 +1,39 @@
+/*
+ * Copyright 2016 Liam Williams <liam.williams@zoho.com>.
+ *
+ * This file is part of yatspec-zohhak-plugin.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.github.theangrydev.yatspeczohhakplugin.json;
 
 final class Result {
 
 	static final Result FAILURE = new Result();
 
-	private Object result;
-	private final boolean succeeded;
+	Object value;
+	final boolean succeeded;
 
 	static Result success(Object result) {
 		return new Result(result);
 	}
 	
-	private Result(Object result) {
-		this.result = result;
+	private Result(Object value) {
+		this.value = value;
 		succeeded = true;
 	}
 
 	private Result() {
 		this.succeeded = false;
-	}
-	
-	boolean succeeded() {
-		return succeeded;
-	}
-	
-	Object getResult() {
-		return result;
 	}
 }

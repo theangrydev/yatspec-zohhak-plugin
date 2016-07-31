@@ -1,3 +1,20 @@
+/*
+ * Copyright 2016 Liam Williams <liam.williams@zoho.com>.
+ *
+ * This file is part of yatspec-zohhak-plugin.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package io.github.theangrydev.yatspeczohhakplugin;
 
@@ -33,13 +50,14 @@ public class ZohhakParameterResolver implements ParameterResolver {
     private final VarargsParameterResolver varargsParameterResolver = new VarargsParameterResolver();
     private final ParameterCalculator parameterCalculator = new ParameterCalculatorProvider().getExecutor(new JsonCollectionsParameterCoercerFactory(), new CustomConfigurationResolver());
 
+    @SuppressWarnings("PMD.SignatureDeclareThrowsException") // blame yatspec
     @Override
     public Object[] resolveParameters(Row row, Class<?> testClass, Method testMethod) throws Exception {
         Object[] parameters = varargsParameterResolver.resolveParameters(row, testClass, testMethod);
         return parameterCalculator.calculateParameters(parametersLine(parameters), testMethod);
     }
 
-    private String parametersLine(Object[] rowParameters) {
+    private String parametersLine(Object... rowParameters) {
         return stream(rowParameters).map(this::parameterToString).collect(joining(PARAMETER_DELIMITER));
     }
 
@@ -52,7 +70,7 @@ public class ZohhakParameterResolver implements ParameterResolver {
     }
 
     private Stream<Object> streamArray(Object array) {
-        return IntStream.range(0, Array.getLength(array)).mapToObj(i -> Array.get(array, i));
+        return IntStream.range(0, Array.getLength(array)).mapToObj(index -> Array.get(array, index));
     }
 
     private static class CustomConfigurationResolver implements ConfigurationResolver {

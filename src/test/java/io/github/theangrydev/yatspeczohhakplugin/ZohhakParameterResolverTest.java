@@ -68,10 +68,18 @@ public class ZohhakParameterResolverTest implements WithAssertions {
 
     @Test
     @Table({
-            @Row("['1,1','2,2','3,3']")
+        @Row("' string '")
     })
-    public void listOfQuotedStrings(List<String> list) {
-        assertThat(list).containsExactly("1,1", "2,2", "3,3");
+    public void quotedStringWithSpaces(String string) {
+        assertThat(string).isEqualTo(" string ");
+    }
+
+    @Test
+    @Table({
+        @Row("1")
+    })
+    public void primitive(int integer) {
+        assertThat(integer).isEqualTo(1);
     }
 
     @Test
@@ -162,11 +170,16 @@ public class ZohhakParameterResolverTest implements WithAssertions {
         @Row("spade")
     })
     public void customCoercion(Suit suit) {
-        try {
-            assertThat(suit).isEqualTo(parseSuit(suit.symbol()));
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        assertThat(suit).isEqualTo(parseSuit(suit.symbol()));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    @Table({
+            @Row("[1,2,3]")
+    })
+    @SuppressWarnings("unused")
+    public void wildcardsAreNotSupported(List<?> list) {
+        // will never make it here
     }
 
     private enum Suit {

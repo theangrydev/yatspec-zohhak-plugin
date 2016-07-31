@@ -18,26 +18,13 @@
 package io.github.theangrydev.yatspeczohhakplugin.json;
 
 import java.lang.reflect.Array;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-import static java.lang.String.format;
 
 class ArrayBuilder implements CollectionBuilder {
 
     @Override
     public Object newCollection(Type elementType, int size) {
-        return Array.newInstance(getElementType(elementType), size);
-    }
-
-    private Class<?> getElementType(Type elementType) {
-        if (elementType instanceof Class) {
-            return (Class<?>) elementType;
-        } else if (elementType instanceof ParameterizedType) {
-            return getElementType(((ParameterizedType) elementType).getRawType());
-        } else {
-            throw new IllegalStateException(format("Not implemented type %s", elementType));
-        }
+        return Array.newInstance((Class<?>) elementType, size);
     }
 
     @Override

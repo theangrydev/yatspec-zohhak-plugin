@@ -34,6 +34,7 @@
         <exclude name="DefaultPackage"/><!-- Intentional to keep things tightly scoped -->
         <exclude name="AtLeastOneConstructor"/><!-- This is pointless if an object has no state (e.g. ZohhakParameterResolver) -->
         <exclude name="OnlyOneReturn"/><!-- Multiple returns can aid readability and reduce arrow code -->
+        <exclude name="DataflowAnomalyAnalysis"/><!-- Too many false positives -->
     </rule>
     <rule ref="rulesets/java/coupling.xml">
         <exclude name="LoosePackageCoupling"/><!-- This rule would be good but you can only configure class excludes not package excludes -->

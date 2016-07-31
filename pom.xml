@@ -7,109 +7,93 @@
     <groupId>io.github.theangrydev</groupId>
     <artifactId>yatspec-zohhak-plugin</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>yatspec-zohhak-plugin</name>
+    <description>A plugin for the yatspec acceptance test library that allows the parameter coercion from zohhak to be applied to @Table tests in yatspec</description>
+    <url>https://github.com/theangrydev/yatspec-fluent</url>
+
+    <scm>
+        <connection>scm:git:https://github.com/theangrydev/yatspec-zohhak-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/theangrydev/yatspec-zohhak-plugin.git</developerConnection>
+        <url>https://github.com/theangrydev/yatspec-zohhak-plugin.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Liam Williams</name>
+            <email>liam.williams@zoho.com</email>
+        </developer>
+    </developers>
 
     <prerequisites>
-        <maven>3.0.1</maven>
+        <maven>3.3.1</maven>
     </prerequisites>
-
-    <repositories>
-        <repository>
-            <id>repo.bodar.com</id>
-            <url>http://repo.bodar.com</url>
-        </repository>
-    </repositories>
 
     <properties>
         <java.language.level>1.8</java.language.level>
         <project.file.encoding>UTF-8</project.file.encoding>
         <project.build.sourceEncoding>${project.file.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.file.encoding}</project.reporting.outputEncoding>
+        <skipTests>false</skipTests>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.googlecode.yatspec</groupId>
+            <artifactId>yatspec</artifactId>
+            <version>1.23</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.theangrydev</groupId>
+            <artifactId>zohhak</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+
+        <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.googlecode.zohhak</groupId>
-            <artifactId>zohhak</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.googlecode.yatspec</groupId>
-            <artifactId>yatspec</artifactId>
-            <version>1.20</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160212</version>
-        </dependency>
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.5</version>
-                    <configuration>
-                        <source>${java.language.level}</source>
-                        <target>${java.language.level}</target>
-                        <compilerArguments>
-                            <Werror />
-                            <Xlint />
-                        </compilerArguments>
-                    </configuration>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.7</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.19.1</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.6</version>
-                </plugin>
-
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>2.5.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5</version>
+                <configuration>
+                    <source>${java.language.level}</source>
+                    <target>${java.language.level}</target>
+                    <compilerArgs>
+                        <arg>-Werror</arg>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
@@ -156,6 +140,40 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.19.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <profiles>
@@ -183,4 +201,11 @@
             </build>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>repo.bodar.com</id>
+            <url>http://repo.bodar.com</url>
+        </repository>
+    </repositories>
 </project>

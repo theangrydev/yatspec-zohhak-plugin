@@ -61,6 +61,7 @@
         <project.build.sourceEncoding>${project.file.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${project.file.encoding}</project.reporting.outputEncoding>
         <skipTests>false</skipTests>
+        <sonar.language>java</sonar.language>
     </properties>
 
     <dependencies>
@@ -378,6 +379,14 @@
 
         <pluginManagement>
             <plugins>
+                <!-- Sonar analysis -->
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.2</version>
+                </plugin>
+
+                <!-- Configuration for release:clean release:prepare and release:perform -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>

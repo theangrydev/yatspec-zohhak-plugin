@@ -17,10 +17,7 @@
  */
 package io.github.theangrydev.yatspeczohhakplugin.json;
 
-import java.lang.reflect.Type;
-
 interface CollectionBuilder {
-    void newCollection(Type elementType, int size);
     void add(Object element);
     Object build();
 }

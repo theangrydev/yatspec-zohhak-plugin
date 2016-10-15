@@ -38,7 +38,6 @@ import static java.util.Arrays.stream;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.joining;
 
-@SuppressWarnings("WeakerAccess")
 public class ZohhakParameterResolver implements ParameterResolver {
 
     private static final String STRING_BOUNDARY = "'";
@@ -50,7 +49,6 @@ public class ZohhakParameterResolver implements ParameterResolver {
     private final VarargsParameterResolver varargsParameterResolver = new VarargsParameterResolver();
     private final ParameterCalculator parameterCalculator = new ParameterCalculatorProvider().getExecutor(new JsonCollectionsParameterCoercerFactory(), new CustomConfigurationResolver());
 
-    @SuppressWarnings("PMD.SignatureDeclareThrowsException") // blame yatspec
     @Override
     public Object[] resolveParameters(Row row, Class<?> testClass, Method testMethod) throws Exception {
         Object[] parameters = varargsParameterResolver.resolveParameters(row, testClass, testMethod);

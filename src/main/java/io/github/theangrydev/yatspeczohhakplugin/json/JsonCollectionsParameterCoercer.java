@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 
 import static java.lang.String.format;
 
@@ -48,9 +49,9 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
 
             Class<?> rawClass = (Class<?>) rawType;
             if (rawClass == List.class) {
-                return coerceCollection(stringToParse, actualTypeArguments[0], new ListBuilder());
+                return coerceCollection(stringToParse, actualTypeArguments[0], (actualTypeArgument, size) -> new ListBuilder(size));
             } else if (rawClass == Set.class) {
-                return coerceCollection(stringToParse, actualTypeArguments[0], new SetBuilder());
+                return coerceCollection(stringToParse, actualTypeArguments[0], (actualTypeArgument, size) -> new SetBuilder(size));
             } else if (rawClass == Map.class) {
                 return coerceMap(stringToParse, actualTypeArguments[0], actualTypeArguments[1]);
             } else {
@@ -59,7 +60,7 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
         } else if (type instanceof Class) {
             Class<?> targetType = ClassUtils.primitiveToWrapper((Class<?>) type);
             if (targetType.isArray()) {
-                return coerceCollection(stringToParse, targetType.getComponentType(), new ArrayBuilder());
+                return coerceCollection(stringToParse, targetType.getComponentType(), ArrayBuilder::new);
             }
             return defaultParameterCoercer.coerceParameter(targetType, stringToParse);
         } else {
@@ -80,10 +81,10 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
         return map;
     }
 
-    private Object coerceCollection(String stringToParse, Type actualTypeArgument, CollectionBuilder collectionBuilder) {
+    private Object coerceCollection(String stringToParse, Type actualTypeArgument, BiFunction<Type, Integer, CollectionBuilder> collectionBuilderConstructor) {
         JSONArray jsonArray = new JSONArray(stringToParse);
         int size = jsonArray.length();
-        collectionBuilder.newCollection(actualTypeArgument, size);
+        CollectionBuilder collectionBuilder = collectionBuilderConstructor.apply(actualTypeArgument, size);
         for (int index = 0; index < size; index++) {
             Object element = coerceParameter(actualTypeArgument, jsonArray.get(index).toString());
             collectionBuilder.add(element);

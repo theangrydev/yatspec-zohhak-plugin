@@ -22,11 +22,10 @@ import java.lang.reflect.Type;
 
 class ArrayBuilder implements CollectionBuilder {
 
-    private Object array;
+    private final Object array;
     private int index;
 
-    @Override
-    public void newCollection(Type elementType, int size) {
+    ArrayBuilder(Type elementType, int size) {
         this.array = Array.newInstance((Class<?>) elementType, size);
     }
 

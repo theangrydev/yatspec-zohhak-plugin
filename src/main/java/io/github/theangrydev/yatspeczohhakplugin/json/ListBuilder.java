@@ -17,16 +17,14 @@
  */
 package io.github.theangrydev.yatspeczohhakplugin.json;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 class ListBuilder implements CollectionBuilder {
 
-    private List<Object> list;
+    private final List<Object> list;
 
-    @Override
-    public void newCollection(Type elementType, int size) {
+    ListBuilder(int size) {
         this.list = new ArrayList<>(size);
     }
 

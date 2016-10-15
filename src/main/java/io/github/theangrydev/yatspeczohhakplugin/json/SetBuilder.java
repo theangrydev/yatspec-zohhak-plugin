@@ -17,16 +17,14 @@
  */
 package io.github.theangrydev.yatspeczohhakplugin.json;
 
-import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
 class SetBuilder implements CollectionBuilder {
 
-    private Set<Object> set;
+    private final Set<Object> set;
 
-    @Override
-    public void newCollection(Type elementType, int size) {
+    SetBuilder(int size) {
         this.set = new HashSet<>(size);
     }
 

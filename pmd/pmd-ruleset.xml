@@ -55,10 +55,14 @@
         <exclude name="MethodArgumentCouldBeFinal"/><!-- Final method arguments are not a way to improve performance since the final keyword does not end up in the class file -->
         <exclude name="LocalVariableCouldBeFinal"/><!-- Final variables are not a way to improve performance since the final keyword does not end up in the class file -->
     </rule>
-    <rule ref="rulesets/java/strictexception.xml"/>
+    <rule ref="rulesets/java/strictexception.xml">
+        <exclude name="SignatureDeclareThrowsException"/><!-- This is part of the existing yatspec API -->
+    </rule>
     <rule ref="rulesets/java/strings.xml"/>
     <rule ref="rulesets/java/sunsecure.xml"/>
-    <rule ref="rulesets/java/typeresolution.xml"/>
+    <rule ref="rulesets/java/typeresolution.xml">
+        <exclude name="SignatureDeclareThrowsException"/><!-- This is part of the existing yatspec API -->
+    </rule>
     <rule ref="rulesets/java/unnecessary.xml"/>
     <rule ref="rulesets/java/unusedcode.xml"/>
 </ruleset>

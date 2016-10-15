@@ -44,19 +44,9 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
     public Object coerceParameter(Type type, String stringToParse) {
         if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
-            Type rawType = parameterizedType.getRawType();
+            Class<?> rawType = (Class<?>) parameterizedType.getRawType();
             Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-
-            Class<?> rawClass = (Class<?>) rawType;
-            if (rawClass == List.class) {
-                return coerceCollection(stringToParse, actualTypeArguments[0], (actualTypeArgument, size) -> new ListBuilder(size));
-            } else if (rawClass == Set.class) {
-                return coerceCollection(stringToParse, actualTypeArguments[0], (actualTypeArgument, size) -> new SetBuilder(size));
-            } else if (rawClass == Map.class) {
-                return coerceMap(stringToParse, actualTypeArguments[0], actualTypeArguments[1]);
-            } else {
-                return coerceParameter(rawType, stringToParse);
-            }
+            return coerceParameterizedType(stringToParse, actualTypeArguments, rawType);
         } else if (type instanceof Class) {
             Class<?> targetType = ClassUtils.primitiveToWrapper((Class<?>) type);
             if (targetType.isArray()) {
@@ -65,6 +55,18 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
             return defaultParameterCoercer.coerceParameter(targetType, stringToParse);
         } else {
             throw new IllegalArgumentException(format("Cannot interpret '%s' as a '%s'", stringToParse, type));
+        }
+    }
+
+    private Object coerceParameterizedType(String stringToParse, Type[] actualTypeArguments, Class<?> rawType) {
+        if (rawType == List.class) {
+            return coerceCollection(stringToParse, actualTypeArguments[0], (actualTypeArgument, size) -> new ListBuilder(size));
+        } else if (rawType == Set.class) {
+            return coerceCollection(stringToParse, actualTypeArguments[0], (actualTypeArgument, size) -> new SetBuilder(size));
+        } else if (rawType == Map.class) {
+            return coerceMap(stringToParse, actualTypeArguments[0], actualTypeArguments[1]);
+        } else {
+            return coerceParameter(rawType, stringToParse);
         }
     }
 

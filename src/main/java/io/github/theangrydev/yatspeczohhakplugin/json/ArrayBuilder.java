@@ -22,13 +22,21 @@ import java.lang.reflect.Type;
 
 class ArrayBuilder implements CollectionBuilder {
 
+    private Object array;
+    private int index;
+
     @Override
-    public Object newCollection(Type elementType, int size) {
-        return Array.newInstance((Class<?>) elementType, size);
+    public void newCollection(Type elementType, int size) {
+        this.array = Array.newInstance((Class<?>) elementType, size);
     }
 
     @Override
-    public void setElement(Object collection, int index, Object element) {
-        Array.set(collection, index, element);
+    public void add(Object element) {
+        Array.set(array, index++, element);
+    }
+
+    @Override
+    public Object build() {
+        return array;
     }
 }

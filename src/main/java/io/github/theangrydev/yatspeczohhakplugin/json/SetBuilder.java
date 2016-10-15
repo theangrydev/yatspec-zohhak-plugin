@@ -21,17 +21,22 @@ import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("unchecked")
 class SetBuilder implements CollectionBuilder {
 
+    private Set<Object> set;
+
     @Override
-    public Object newCollection(Type elementType, int size) {
-        return new HashSet(size);
+    public void newCollection(Type elementType, int size) {
+        this.set = new HashSet<>(size);
     }
 
     @Override
-    public void setElement(Object collection, int index, Object element) {
-        Set set = (Set) collection;
+    public void add(Object element) {
         set.add(element);
+    }
+
+    @Override
+    public Object build() {
+        return set;
     }
 }

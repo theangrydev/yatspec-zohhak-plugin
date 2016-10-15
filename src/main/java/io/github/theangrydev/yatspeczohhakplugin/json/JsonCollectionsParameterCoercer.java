@@ -24,6 +24,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,17 +34,9 @@ import static java.lang.String.format;
 class JsonCollectionsParameterCoercer implements ParameterCoercer {
 
     private final ParameterCoercer defaultParameterCoercer;
-    private final ListBuilder listBuilder;
-    private final SetBuilder setBuilder;
-    private final ArrayBuilder arrayBuilder;
-    private final MapBuilder mapBuilder;
 
-    JsonCollectionsParameterCoercer(ParameterCoercer defaultParameterCoercer, ListBuilder listBuilder, SetBuilder setBuilder, ArrayBuilder arrayBuilder, MapBuilder mapBuilder) {
+    JsonCollectionsParameterCoercer(ParameterCoercer defaultParameterCoercer) {
         this.defaultParameterCoercer = defaultParameterCoercer;
-        this.listBuilder = listBuilder;
-        this.setBuilder = setBuilder;
-        this.arrayBuilder = arrayBuilder;
-        this.mapBuilder = mapBuilder;
     }
 
     @Override
@@ -55,9 +48,9 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
 
             Class<?> rawClass = (Class<?>) rawType;
             if (rawClass == List.class) {
-                return coerceCollection(stringToParse, actualTypeArguments[0], listBuilder);
+                return coerceCollection(stringToParse, actualTypeArguments[0], new ListBuilder());
             } else if (rawClass == Set.class) {
-                return coerceCollection(stringToParse, actualTypeArguments[0], setBuilder);
+                return coerceCollection(stringToParse, actualTypeArguments[0], new SetBuilder());
             } else if (rawClass == Map.class) {
                 return coerceMap(stringToParse, actualTypeArguments[0], actualTypeArguments[1]);
             } else {
@@ -66,7 +59,7 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
         } else if (type instanceof Class) {
             Class<?> targetType = ClassUtils.primitiveToWrapper((Class<?>) type);
             if (targetType.isArray()) {
-                return coerceCollection(stringToParse, targetType.getComponentType(), arrayBuilder);
+                return coerceCollection(stringToParse, targetType.getComponentType(), new ArrayBuilder());
             }
             return defaultParameterCoercer.coerceParameter(targetType, stringToParse);
         } else {
@@ -74,15 +67,15 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
         }
     }
 
-    private Object coerceMap(String stringToParse, Type keyType, Type valueType) {
+    private Map<Object, Object> coerceMap(String stringToParse, Type keyType, Type valueType) {
         JSONObject jsonObject = new JSONObject(stringToParse);
         int size = jsonObject.length();
-        Object map = mapBuilder.newMap(size);
+        Map<Object, Object> map = new HashMap<>(size);
         for (String jsonKey : jsonObject.keySet()) {
             String jsonValue = jsonObject.get(jsonKey).toString();
             Object key = coerceParameter(keyType, jsonKey);
             Object value = coerceParameter(valueType, jsonValue);
-            mapBuilder.addElement(map, key, value);
+            map.put(key, value);
         }
         return map;
     }
@@ -90,11 +83,11 @@ class JsonCollectionsParameterCoercer implements ParameterCoercer {
     private Object coerceCollection(String stringToParse, Type actualTypeArgument, CollectionBuilder collectionBuilder) {
         JSONArray jsonArray = new JSONArray(stringToParse);
         int size = jsonArray.length();
-        Object collection = collectionBuilder.newCollection(actualTypeArgument, size);
+        collectionBuilder.newCollection(actualTypeArgument, size);
         for (int index = 0; index < size; index++) {
             Object element = coerceParameter(actualTypeArgument, jsonArray.get(index).toString());
-            collectionBuilder.setElement(collection, index, element);
+            collectionBuilder.add(element);
         }
-        return collection;
+        return collectionBuilder.build();
     }
 }

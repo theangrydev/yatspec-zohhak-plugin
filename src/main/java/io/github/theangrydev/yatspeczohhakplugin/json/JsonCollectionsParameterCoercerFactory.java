@@ -24,6 +24,6 @@ public class JsonCollectionsParameterCoercerFactory implements ParameterCoercerF
 
     @Override
     public ParameterCoercer parameterCoercer(ParameterCoercer defaultParameterCoercer) {
-        return new JsonCollectionsParameterCoercer(defaultParameterCoercer, new ListBuilder(), new SetBuilder(), new ArrayBuilder(), new MapBuilder());
+        return new JsonCollectionsParameterCoercer(defaultParameterCoercer);
     }
 }

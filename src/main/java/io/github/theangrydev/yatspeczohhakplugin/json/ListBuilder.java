@@ -21,17 +21,22 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unchecked")
 class ListBuilder implements CollectionBuilder {
 
+    private List<Object> list;
+
     @Override
-    public Object newCollection(Type elementType, int size) {
-        return new ArrayList(size);
+    public void newCollection(Type elementType, int size) {
+        this.list = new ArrayList<>(size);
     }
 
     @Override
-    public void setElement(Object collection, int index, Object element) {
-        List list = (List) collection;
+    public void add(Object element) {
         list.add(element);
+    }
+
+    @Override
+    public Object build() {
+        return list;
     }
 }

@@ -1,4 +1,4 @@
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.theangrydev/yatspec-zohhak-plugin/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/io.github.theangrydev/yatspec-zohhak-plugin)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.theangrydev/yatspec-zohhak-plugin.svg)](https://mvnrepository.com/artifact/io.github.theangrydev/yatspec-zohhak-plugin)
 [![Javadoc](http://javadoc-badge.appspot.com/io.github.theangrydev/yatspec-zohhak-plugin.svg?label=javadoc)](http://javadoc-badge.appspot.com/io.github.theangrydev/yatspec-zohhak-plugin)
 [![Gitter](https://badges.gitter.im/yatspec-zohhak-plugin/Lobby.svg)](https://gitter.im/yatspec-zohhak-plugin/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
